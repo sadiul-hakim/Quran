@@ -24,11 +24,24 @@ body {
 }
 
 .container {
-    width: 80%;
+    width: 90%;
     margin: 0 auto;
-    background: rgba(255, 255, 255, 0.49);
     padding-top: 40px;
     height: 100vh;
+    display: flex;
+    justify-content: space-between;
+}
+
+.side-bar {
+    padding: 10px;
+    background: rgba(94, 94, 94, 0.49);
+    width: 18%;
+    overflow: auto;
+}
+
+.content{
+    background: rgba(229, 229, 229, 0.49);
+    width: 78%;
     overflow: auto;
 }
 
@@ -82,17 +95,14 @@ body {
     font-weight: 500;
 }
 
-.surah__list {
-    padding: 10px;
-}
-
 .surah__list li {
     list-style-type: none;
     border-bottom: 1px solid var(--primary-color);
     padding: 5px;
-    color: var(--primary-color);
+    color: #ffffff;
     font-size: 20px;
     font-weight: 500;
+    cursor: pointer;
 }
 
 .surah__list li:hover,

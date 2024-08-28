@@ -5,6 +5,7 @@ let ayat__list = document.getElementById("ayat__list");
 const title__eng = document.getElementById("title__eng");
 const title__arb = document.getElementById("title__arb");
 const language = document.getElementById("language");
+const surahNames = document.querySelectorAll('#surah_list > li');
 
 let surahNumber = surah_num.value;
 
@@ -37,16 +38,7 @@ next_num.onclick = async () => {
 async function loadAndShow(number) {
 
     let lang = language.value;
-    let data;
-
-    if (lang === "eng") {
-        let engResponse = await fetch(`https://api.alquran.cloud/v1/surah/${number}/en.asad`);
-        data = await engResponse.json();
-    } else {
-        let engResponse = await fetch(`https://api.alquran.cloud/v1/surah/${number}/ar.alafasy`);
-        data = await engResponse.json();
-    }
-
+    let data = await loadSurah(lang, number);
     title__eng.innerText = data.data.englishName;
     title__arb.innerText = data.data.name;
 
@@ -79,6 +71,20 @@ function showAyat(data, lang) {
     }
 }
 
+async function loadSurah(lang, number) {
+
+    let data;
+    if (lang === "eng") {
+        let engResponse = await fetch(`https://api.alquran.cloud/v1/surah/${number}/en.asad`);
+        data = await engResponse.json();
+    } else {
+        let engResponse = await fetch(`https://api.alquran.cloud/v1/surah/${number}/ar.alafasy`);
+        data = await engResponse.json();
+    }
+
+    return data;
+}
+
 function createLiTag(name, className, content, number) {
     let liTag = createTag(name, className);
     liTag.innerText = `${number}. ${content}`;
@@ -92,4 +98,14 @@ function createTag(name, className) {
         tag.classList.add(className)
     }
     return tag;
+}
+
+//----------------------------------------------------------------------------//
+
+for (let i = 0; i < surahNames.length; i++) {
+    surahNames[i].onclick = async function (e) {
+        let num = surahNames[i].dataset.id;
+        await loadAndShow(num);
+        surah_num.value = num;
+    }
 }
