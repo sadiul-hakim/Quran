@@ -1,4 +1,5 @@
 const surah_num = document.getElementById("surah_num");
+const ayah_num = document.getElementById("ayah_num");
 const load__btn = document.getElementById("load__btn");
 const next_num = document.getElementById("next__btn");
 let ayat__list = document.getElementById("ayat__list");
@@ -8,47 +9,75 @@ const language = document.getElementById("language");
 const surahNames = document.querySelectorAll('#surah_list > li');
 
 let surahNumber = surah_num.value;
+let ayahNumber = ayah_num.value;
+window.onload = async () => {
+    await loadAndShow(surahNumber, ayahNumber);
+}
 
 load__btn.onclick = async (e) => {
-    let number = surah_num.value;
+    let surahNumber = surah_num.value;
+    let ayahNumber = ayah_num.value;
 
-    if (number === "" || number <= 0 || number > 114) {
+    if (surahNumber === "" || surahNumber <= 0 || surahNumber > 114) {
         alert("Invalid Surah Number! please input from 1 to 114.")
         return
     }
 
-    await loadAndShow(number);
-}
-
-window.onload = async () => {
-    await loadAndShow(surahNumber);
+    await loadAndShow(surahNumber, ayahNumber);
 }
 
 next_num.onclick = async () => {
 
     surahNumber = surah_num.value;
+    ayahNumber = ayah_num.value;
 
     if (surahNumber == 114) {
         surahNumber = 0;
     }
     surah_num.value = ++surahNumber;
-    await loadAndShow(surahNumber);
+    await loadAndShow(surahNumber, ayahNumber);
 }
 
-async function loadAndShow(number) {
+async function loadAndShow(surahNumber, ayahNumber) {
 
     let lang = language.value;
-    let data = await loadSurah(lang, number);
+    let data = await loadSurah(lang, surahNumber, ayahNumber);
     title__eng.innerText = data.data.englishName;
     title__arb.innerText = data.data.name;
 
     showAyat(data.data, lang);
 }
 
+async function loadSurah(lang, surahNumber, ayahNumber) {
+
+    let data;
+    let url = getUrl(lang, surahNumber, ayahNumber);
+    if (lang === "eng") {
+        let engResponse = await fetch(url);
+        data = await engResponse.json();
+    } else {
+        let engResponse = await fetch(url);
+        data = await engResponse.json();
+    }
+
+    return data;
+}
+
 function showAyat(data, lang) {
-    let ayahs = data.ayahs;
 
     ayat__list.innerHTML = "";
+    let ayahs = data.ayahs;
+
+    console.log(data)
+    if (ayahs === undefined) {
+        title__eng.innerText = data.surah.englishName;
+        title__arb.innerText = data.surah.name;
+
+        let tag = createLiTag("li", "ayah", data.text, data.number);
+        ayat__list.append(tag);
+        return;
+    }
+
 
     for (let i = 0; i < ayahs.length; i++) {
         let ayah = ayahs[i];
@@ -71,18 +100,19 @@ function showAyat(data, lang) {
     }
 }
 
-async function loadSurah(lang, number) {
-
-    let data;
-    if (lang === "eng") {
-        let engResponse = await fetch(`https://api.alquran.cloud/v1/surah/${number}/en.asad`);
-        data = await engResponse.json();
+function getUrl(language, surahNumber, ayahNumber) {
+    let url;
+    if (ayahNumber > 1) {
+        url = `https://api.alquran.cloud/v1/ayah/${surahNumber}:${ayahNumber}/en.asad`;
     } else {
-        let engResponse = await fetch(`https://api.alquran.cloud/v1/surah/${number}/ar.alafasy`);
-        data = await engResponse.json();
+        if (language === "eng") {
+            url = `https://api.alquran.cloud/v1/surah/${surahNumber}/en.asad`;
+        } else {
+            url = `https://api.alquran.cloud/v1/surah/${surahNumber}/ar.alafasy`;
+        }
     }
 
-    return data;
+    return url;
 }
 
 function createLiTag(name, className, content, number) {

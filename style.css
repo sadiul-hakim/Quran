@@ -50,7 +50,8 @@ body {
     color: var(--primary-color);
 }
 
-#surah_num {
+#surah_num,
+#ayah_num{
     padding: 10px;
     font-size: 18px;
     border-radius: 4px;
@@ -58,12 +59,10 @@ body {
     border: none;
 }
 
-.action__area {
-    padding: 10px;
+.action__area{
     display: flex;
-    justify-content: end;
-    align-items: center;
-    /*background: rgba(250, 250, 250, 0.78);*/
+    justify-content: start;
+    padding: 20px;
 }
 
 .btn {
