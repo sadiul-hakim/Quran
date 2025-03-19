@@ -68,7 +68,6 @@ function showAyat(data, lang) {
     ayat__list.innerHTML = "";
     let ayahs = data.ayahs;
 
-    console.log(data)
     if (ayahs === undefined) {
         title__eng.innerText = data.surah.englishName;
         title__arb.innerText = data.surah.name;
