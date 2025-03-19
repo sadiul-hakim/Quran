@@ -1,9 +1,9 @@
 const CACHE_NAME = 'quran-cache-v1';
 const urlsToCache = [
-    '/images/icon-192x192.png',
-    '/images/icon-512x512.png',
-    '/images/screenshot1.png',
-    '/js/manifest.json'
+    '/img/icon-192x192.png',
+    '/img/icon-512x512.png',
+    '/img/screenshot1.png',
+    '/assets/manifest.json'
 ];
 
 // Install service worker and cache static assets
