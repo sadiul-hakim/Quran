@@ -11,12 +11,12 @@
 
 @font-face {
     font-family: "Overlook";
-    src: url("./font/Overlock-Regular.ttf"),
-    url("./font/Overlock-Bold.ttf");
+    src: url("../font/Overlock-Regular.ttf"),
+    url("../font/Overlock-Bold.ttf");
 }
 
 body {
-    background-image: url("./img/background.jpg");
+    background-image: url("../img/background.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
