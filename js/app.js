@@ -4,11 +4,13 @@ const load__btn = document.getElementById("load__btn");
 const next_num = document.getElementById("next__btn");
 const prev__btn = document.getElementById("prev__btn");
 let ayat__list = document.getElementById("ayat__list");
+let surah_list = document.getElementById("surah_list");
 const title__eng = document.getElementById("title__eng");
 const title__arb = document.getElementById("title__arb");
 const surah_info = document.getElementById("surah_info");
 const language = document.getElementById("language");
-const surahNames = document.querySelectorAll('#surah_list > li');
+const searchBox = document.getElementById('surah_search');
+const suggestions = document.getElementById('suggestions');
 
 let surahNumber = surah_num.value;
 let ayahNumber = ayah_num.value;
@@ -17,7 +19,73 @@ let quran = null;
 
 window.onload = async () => {
     await loadQuran();
+    showSurahList();
     loadAndShow(surahNumber, ayahNumber);
+
+    // ------------------- Search Box ---------------------------------------
+
+    // 🔹 Load surah data into an array on page load
+    const surahList = Object.values(quran).map(surah => ({
+        id: surah.number,
+        name: surah.number + " . " + surah.englishName
+    }));
+
+    // Search input listener
+    searchBox.addEventListener('input', function () {
+        const query = this.value.toLowerCase();
+        suggestions.innerHTML = ''; // clear old suggestions
+
+        if (query.length === 0) {
+            suggestions.style.display = 'none';
+            return;
+        }
+
+        // Filter surahs
+        const matches = surahList.filter(surah =>
+            surah.name.toLowerCase().includes(query)
+        );
+
+        if (matches.length === 0) {
+            suggestions.style.display = 'none';
+            return;
+        }
+
+        // Show matches
+        matches.forEach(surah => {
+            const li = document.createElement('li');
+            li.textContent = surah.name;
+            li.dataset.id = surah.id;
+            li.onclick = function () {
+                console.log(surah.id)
+                loadAndShow(surah.id);
+                surah_num.value = surah.id;
+                searchBox.value = ''; // clear search box
+                suggestions.style.display = 'none'; // hide suggestions
+            };
+            suggestions.appendChild(li);
+        });
+
+        suggestions.style.display = 'block';
+    });
+
+    // ------------------------ End ---------------------------------
+    // ---------------------- Surah Side Bar ------------------------
+    function showSurahList() {
+        for (let surah of Object.values(quran)) {
+            let li = document.createElement("li");
+            li.innerText = surah.number + " . " + surah.englishName;
+            li.dataset.id = surah.number;
+
+            li.onclick = function (e) {
+                loadAndShow(surah.number);
+                surah_num.value = surah.number;
+            }
+
+            surah_list.append(li);
+        }
+    }
+
+    // ------------------------ End -------------------------------------
 }
 
 async function loadQuran() {
@@ -25,7 +93,7 @@ async function loadQuran() {
     quran = await response.json();
 }
 
-load__btn.onclick = async (e) => {
+load__btn.onclick = (e) => {
     let surahNumber = surah_num.value;
     let ayahNumber = ayah_num.value;
 
@@ -34,10 +102,10 @@ load__btn.onclick = async (e) => {
         return
     }
 
-    await loadAndShow(surahNumber, ayahNumber);
+    loadAndShow(surahNumber, ayahNumber);
 }
 
-next_num.onclick = async () => {
+next_num.onclick = () => {
 
     surahNumber = surah_num.value;
     ayahNumber = ayah_num.value;
@@ -46,10 +114,10 @@ next_num.onclick = async () => {
         surahNumber = 0;
     }
     surah_num.value = ++surahNumber;
-    await loadAndShow(surahNumber, ayahNumber);
+    loadAndShow(surahNumber, ayahNumber);
 }
 
-prev__btn.onclick = async () => {
+prev__btn.onclick = () => {
 
     surahNumber = surah_num.value;
     ayahNumber = ayah_num.value;
@@ -58,7 +126,7 @@ prev__btn.onclick = async () => {
         surahNumber = 115;
     }
     surah_num.value = --surahNumber;
-    await loadAndShow(surahNumber, ayahNumber);
+    loadAndShow(surahNumber, ayahNumber);
 }
 
 function loadAndShow(surahNumber, ayahNumber) {
@@ -128,15 +196,6 @@ function createTag(name, className) {
     return tag;
 }
 
-//----------------------------------------------------------------------------//
-
-for (let i = 0; i < surahNames.length; i++) {
-    surahNames[i].onclick = async function (e) {
-        let num = surahNames[i].dataset.id;
-        await loadAndShow(num);
-        surah_num.value = num;
-    }
-}
 
 // ----------------------------- Older Version -------------------------------
 
