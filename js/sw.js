@@ -3,7 +3,15 @@ const urlsToCache = [
     '/img/icon-192x192.png',
     '/img/icon-512x512.png',
     '/img/screenshot1.png',
-    '/assets/manifest.json'
+    '/assets/manifest.json',
+    '/assets/quran.json',
+    '/js/app.js',
+    '/js/offline.js',
+    '/js/search.js',
+    'index.html',
+    '/style/style.css',
+    '/font/Overlock-Bold.ttf',
+    '/font/Overlock-Regular.ttf'
 ];
 
 // Install service worker and cache static assets

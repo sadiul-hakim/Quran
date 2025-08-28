@@ -67,7 +67,7 @@ function loadAndShow(surahNumber, ayahNumber) {
 
     title__eng.innerText = surah.englishName + " (" + surah.englishNameTranslation + ")";
     title__arb.innerText = surah.name;
-    surah_info.innerText = Object.keys(surah.ayahs).length + " Ayahs, " + "Revelation Type " + surah.revelationType
+    surah_info.innerText = Object.keys(surah.ayahs).length + " Ayahs, " + surah.revelationType
 
     if (ayahNumber < 1 || ayahNumber > Object.keys(surah.ayahs).length) {
         alert("Invalid Ayah Number!")
