@@ -36,7 +36,8 @@ window.onload = async () => {
         let quranData = JSON.parse(data);
         surah_num.value = quranData.surahNumber;
         ayah_num.value = quranData.ayahNumber;
-        loadAndShow(quranData.surahNumber, quranData.ayahNumber);
+        language.value = quranData.lang;
+        loadAndShow(quranData.surahNumber, quranData.ayahNumber, quranData.lang);
     }
 
     // ------------------- Search Box ---------------------------------------
@@ -146,12 +147,12 @@ prev__btn.onclick = () => {
     loadAndShow(surahNumber, ayahNumber);
 }
 
-function loadAndShow(surahNumber, ayahNumber) {
-    let lang = language.value;
+function loadAndShow(surahNumber, ayahNumber, lan) {
+    let lang = lan ? lan : language.value;
     let surah = quran[surahNumber];
     createSurahPlayButton(surah);
 
-    localStorage.setItem("quran_storage", JSON.stringify({surahNumber, ayahNumber}))
+    localStorage.setItem("quran_storage", JSON.stringify({surahNumber, ayahNumber, lang}))
 
     title__eng.innerText = surah.englishName + " (" + surah.englishNameTranslation + ")";
     title__arb.innerText = surah.name;
