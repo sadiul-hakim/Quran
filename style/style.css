@@ -208,10 +208,26 @@ body {
     background: #28a745; /* green when playing */
 }
 
+.surah-play-btn {
+    background: #5091DD;
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 10px;
+    transition: background 0.3s;
+}
+
+.surah-play-btn:hover {
+    background: #407ac1;
+}
+
 a {
     text-decoration: none;
 }
-
 
 footer {
     position: fixed;

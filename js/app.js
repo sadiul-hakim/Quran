@@ -16,6 +16,14 @@ let surahNumber = surah_num.value;
 let ayahNumber = ayah_num.value;
 
 let quran = null;
+let currentAudio = null; // keep track of the playing audio
+let surahPlayer = {
+    audios: [],
+    currentIndex: 0,
+    audio: null,
+    isPlaying: false,
+    button: null
+};
 
 window.onload = async () => {
     await loadQuran();
@@ -132,10 +140,30 @@ prev__btn.onclick = () => {
 function loadAndShow(surahNumber, ayahNumber) {
     let lang = language.value;
     let surah = quran[surahNumber];
+    createSurahPlayButton(surah);
 
     title__eng.innerText = surah.englishName + " (" + surah.englishNameTranslation + ")";
     title__arb.innerText = surah.name;
-    surah_info.innerText = Object.keys(surah.ayahs).length + " Ayahs, " + surah.revelationType
+    surah_info.innerText = Object.keys(surah.ayahs).length + " Ayahs, " + surah.revelationType;
+
+    if (lang === 'arb') {
+
+        // ------------ Play Button------------------
+        const btn = document.createElement("button");
+        btn.innerText = "▶️";
+        btn.classList.add("surah-play-btn");
+        title__eng.append(btn);
+
+        btn.addEventListener("click", () => {
+            if (!surahPlayer.isPlaying) {
+                playAyahAudio();
+            } else {
+                pauseAyahAudio();
+            }
+        });
+        surahPlayer.button = btn;
+        // -------------------- End -------------------
+    }
 
     if (ayahNumber < 1 || ayahNumber > Object.keys(surah.ayahs).length) {
         alert("Invalid Ayah Number!")
@@ -147,6 +175,54 @@ function loadAndShow(surahNumber, ayahNumber) {
     } else {
         showAyah(surah, lang);
     }
+}
+
+function createSurahPlayButton(surahData) {
+    surahPlayer.audios = Object.values(surahData.ayahs).map(a => a.audio);
+    surahPlayer.currentIndex = 0;
+    surahPlayer.isPlaying = false;
+}
+
+function playAyahAudio() {
+    if (surahPlayer.currentIndex >= surahPlayer.audios.length) {
+        resetSurahPlayer();
+        return;
+    }
+
+    const src = surahPlayer.audios[surahPlayer.currentIndex];
+    if (!surahPlayer.audio) {
+        surahPlayer.audio = new Audio(src);
+    } else {
+        surahPlayer.audio.src = src;
+    }
+
+    surahPlayer.audio.play();
+    surahPlayer.isPlaying = true;
+    surahPlayer.button.innerText = "⏸";
+
+    // when ayah finishes, move to next
+    surahPlayer.audio.onended = () => {
+        surahPlayer.currentIndex++;
+        playAyahAudio();
+    };
+}
+
+function pauseAyahAudio() {
+    if (surahPlayer.audio) {
+        surahPlayer.audio.pause();
+        surahPlayer.isPlaying = false;
+        surahPlayer.button.innerText = "▶️";
+    }
+}
+
+function resetSurahPlayer() {
+    if (surahPlayer.audio) {
+        surahPlayer.audio.pause();
+        surahPlayer.audio.currentTime = 0;
+    }
+    surahPlayer.isPlaying = false;
+    surahPlayer.currentIndex = 0;
+    surahPlayer.button.innerText = "▶️";
 }
 
 function showAyah(data, lang) {
@@ -169,7 +245,6 @@ function showAyah(data, lang) {
 }
 
 // 🔹 Helper for audio creation
-let currentAudio = null; // keep track of the playing audio
 
 function createAudioTag(src) {
     const wrapper = document.createElement("div");
@@ -184,6 +259,7 @@ function createAudioTag(src) {
 
     // toggle play/pause
     btn.addEventListener("click", () => {
+
         // stop any currently playing audio
         if (currentAudio && currentAudio !== audio) {
             currentAudio.pause();
