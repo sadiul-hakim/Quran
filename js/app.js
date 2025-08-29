@@ -150,6 +150,7 @@ function loadAndShow(surahNumber, ayahNumber) {
 }
 
 function showAyah(data, lang) {
+    console.log(data)
     ayat__list.innerHTML = "";
 
     // Normalize: wrap single ayah in an array
@@ -157,7 +158,7 @@ function showAyah(data, lang) {
 
     ayahs.forEach(ayah => {
         const text = lang === "arb" ? ayah.text : ayah.engText;
-        const tag = createLiTag("li", "ayah", text, ayah.number);
+        const tag = createLiTag("li", lang === 'eng' ? "eng__ayah" : "arb__ayah", text, ayah.number, lang);
 
         if (lang === "arb" && ayah.audio) {
             tag.append(createAudioTag(ayah.audio));
@@ -168,22 +169,62 @@ function showAyah(data, lang) {
 }
 
 // 🔹 Helper for audio creation
+let currentAudio = null; // keep track of the playing audio
+
 function createAudioTag(src) {
-    const audio = createTag("audio", "");
-    audio.controls = true;
-    audio.classList.add("audio");
+    const wrapper = document.createElement("div");
+    wrapper.classList.add("audio");
 
-    const source = createTag("source", "");
-    source.src = src;
-    source.type = "audio/mp3";
+    const audio = document.createElement("audio");
+    audio.src = src;
 
-    audio.append(source);
-    return audio;
+    const btn = document.createElement("button");
+    btn.innerText = "▶️";
+    btn.classList.add("play-btn");
+
+    // toggle play/pause
+    btn.addEventListener("click", () => {
+        // stop any currently playing audio
+        if (currentAudio && currentAudio !== audio) {
+            currentAudio.pause();
+            currentAudio.parentElement.querySelector(".play-btn").innerText = "▶️";
+        }
+
+        if (audio.paused) {
+            audio.play();
+            btn.innerText = "⏸"; // change to pause icon
+            wrapper.classList.add("playing");
+            currentAudio = audio;
+        } else {
+            audio.pause();
+            btn.innerText = "▶️"; // back to play icon
+            wrapper.classList.remove("playing");
+            currentAudio = null;
+        }
+    });
+
+    // when audio finishes, reset
+    audio.addEventListener("ended", () => {
+        btn.innerText = "▶️";
+        wrapper.classList.remove("playing");
+        if (currentAudio === audio) currentAudio = null;
+    });
+
+    wrapper.append(btn, audio);
+    return wrapper;
 }
 
-function createLiTag(name, className, content, number) {
+function createLiTag(name, className, content, number, lang) {
     let liTag = createTag(name, className);
-    liTag.innerText = `${number}. ${content}`;
+
+    let text;
+    if (lang === 'eng') {
+        text = `<span class='ayah_num'>${number}.</span> ${content}`;
+    } else {
+        text = `${content}`;
+    }
+
+    liTag.innerHTML = text;
     return liTag;
 }
 

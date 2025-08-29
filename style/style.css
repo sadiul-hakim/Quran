@@ -1,7 +1,11 @@
 :root {
-    --primary-color: #00332c;
+    --body-bg-color: #1a2a3a;
+    --body-bg-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
     --secondary-color: rgba(252, 252, 252, 0.56);
-    --bg-color: rgba(148, 146, 146, 0.49);
+    --bg-color: #323b49;
+    --front-color: #e0e0e0;
+    --front-seconddary: #467dbd;
+    --input-bg: #223344;
 }
 
 * {
@@ -17,11 +21,12 @@
 }
 
 body {
-    background-image: url("../img/background.jpg");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
     font-family: Overlook, serif;
+    margin: 0;
+    height: 100vh;
+    background-color: var(--body-bg-color);
+    background-image: var(--body-bg-image);
+    background-size: 20px 20px;
 }
 
 .container {
@@ -35,6 +40,7 @@ body {
 }
 
 .side-bar {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     padding: 10px;
     background: var(--bg-color);
     width: 18%;
@@ -42,36 +48,55 @@ body {
 }
 
 .content {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     width: 78%;
     background: var(--bg-color);
     overflow: auto;
-    box-shadow: 1px 0 1px #333;
     padding-top: 5px;
 }
 
-.title {
+.surah__list li {
+    list-style-type: none;
+    border-bottom: 1px solid gray;
+    padding: 5px;
+    color: var(--front-color);
+    font-size: 20px;
+    cursor: pointer;
+    font-weight: 550;
+}
+
+.title__eng {
     text-align: center;
-    color: var(--primary-color);
+    color: var(--front-color);
+}
+
+.title__arb {
+    text-align: center;
+    color: var(--front-seconddary);
 }
 
 #surah_info {
-    text-align: center;
-    color: var(--primary-color);
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
 }
 
+.title__arb__color {
+    color: var(--front-seconddary);
+}
+
 .title__color {
-    color: var(--primary-color);
+    color: var(--front-color);
 }
 
 #surah_num,
 #ayah_num {
-    padding: 10px;
-    font-size: 18px;
-    border-radius: 4px;
     font-family: Overlook, sans-serif;
-    border: none;
+    padding: 10px;
+    border: 1px solid #445566;
+    background-color: var(--input-bg);
+    color: #e0e0e0;
+    border-radius: 5px;
+    font-size: 0.9em;
 }
 
 .action__area {
@@ -83,30 +108,17 @@ body {
 .btn {
     padding: 10px;
     color: white;
+    border: 1px solid #445566;
     font-family: Overlook, sans-serif;
-    background: var(--primary-color);
+    background: var(--input-bg);
     border-radius: 4px;
-    border: none;
     margin: 0 5px;
     font-weight: 500;
     font-size: 18px;
 }
 
-.btn a {
-    color: var(--primary-color);
-}
-
 .result__area {
     text-align: center;
-}
-
-.ayah {
-    color: var(--primary-color);
-    border-bottom: 1px solid var(--primary-color);
-    padding: 5px;
-    list-style-type: none;
-    font-size: 22px;
-    font-weight: 500;
 }
 
 #surah_search {
@@ -121,7 +133,7 @@ body {
     overflow-y: auto;
     display: none;
     background-color: white;
-    color: var(--primary-color);
+    color: var(--body-bg-color);
     padding: 2px
 }
 
@@ -131,36 +143,75 @@ body {
 }
 
 #suggestions li:hover {
-    background-color: var(--bg-color);
+    background-color: gray;
 }
 
-.surah__list li {
+.ayah_num {
+    color: var(--front-seconddary);
+    margin-right: 10px;
+}
+
+.eng__ayah {
+    color: var(--front-color);
+    border-bottom: 1px solid gray;
+    padding: 10px;
     list-style-type: none;
-    border-bottom: 1px solid var(--primary-color);
-    padding: 5px;
-    color: var(--primary-color);
-    font-size: 20px;
-    cursor: pointer;
-    font-weight: 550;
+    font-size: 22px;
+    font-weight: 500;
+    text-align: start;
+}
+
+.arb__ayah {
+    color: var(--front-color);
+    border-bottom: 1px solid gray;
+    padding: 10px;
+    list-style-type: none;
+    font-size: 25px;
+    font-weight: 500;
+    text-align: end;
 }
 
 .surah__list li:hover,
-.ayah:hover {
+.eng__ayah:hover,
+.arb__ayah:hover {
     background: var(--secondary-color);
+    color: var(--body-bg-color);
 }
 
-.ayah:hover .audio {
+.audio {
+    margin-left: 10px;
     display: inline-block;
+}
+
+.arb__ayah:hover .audio {
+    align-items: center;
+    gap: 8px;
+}
+
+.play-btn {
+    background: #5091DD;
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+.play-btn:hover {
+    background: #407ac1;
+}
+
+.audio.playing .play-btn {
+    background: #28a745; /* green when playing */
 }
 
 a {
     text-decoration: none;
 }
 
-.audio {
-    margin-left: 10px;
-    display: none;
-}
 
 footer {
     position: fixed;
@@ -168,7 +219,7 @@ footer {
     left: 0;
     width: 100%;
     background: var(--bg-color);
-    color: var(--primary-color);
+    color: var(--front-color);
     text-align: center;
     padding: 8px 12px;
     font-size: 14px;
@@ -176,19 +227,11 @@ footer {
 }
 
 footer a {
-    color: var(--primary-color);
+    color: var(--front-color);
     text-decoration: none;
     font-weight: bold;
 }
 
 footer a:hover {
     text-decoration: underline;
-}
-
-#offlineNotice {
-    display: none;
-    background: #ffc107;
-    color: #000;
-    padding: 10px;
-    text-align: center;
 }

@@ -6,7 +6,6 @@ const urlsToCache = [
     '/assets/manifest.json',
     '/assets/quran.json',
     '/js/app.js',
-    '/js/offline.js',
     'index.html',
     '/style/style.css',
     '/font/Overlock-Bold.ttf',

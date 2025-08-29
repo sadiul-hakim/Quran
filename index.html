@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="style/style.css">
     <script defer src="js/app.js"></script>
     <script defer src="js/sw.js"></script>
-    <script defer src="js/offline.js"></script>
     <link rel="icon" type="image/x-icon" href="./img/quran.png">
     <link rel="manifest" href="assets/manifest.json">
 </head>
@@ -14,7 +13,7 @@
 <div class="container">
     <!--   Surah List     -->
     <div class="side-bar">
-        <h2 class="title__color">Surah List</h2>
+        <h2 class="title__arb__color">Surah List</h2>
 
         <!-- 🔍 Search box -->
         <input type="text" id="surah_search" placeholder="🔎 Search Surah...">
@@ -27,11 +26,9 @@
     </div>
     <!--    Ayah    -->
     <div class="content">
-        <h1 class="title">
-            <p class="title__eng" id="title__eng"></p>
-            <p class="title__arb" id="title__arb"></p>
-        </h1>
-        <p id="surah_info"></p>
+        <h2 class="title__eng" id="title__eng"></h2>
+        <h1 class="title__arb" id="title__arb"></h1>
+        <p id="surah_info" class="title__arb"></p>
         <div class="action__area">
             <div class="nav__btn_area">
                 <button class="btn" id="prev__btn">Previous</button>
@@ -57,9 +54,6 @@
             <ul id="ayat__list"></ul>
         </div>
     </div>
-</div>
-<div id="offlineNotice">
-    ⚠️ You are offline. Audio will not be available.
 </div>
 <footer>
     Developed by <a href="https://sadiul-hakim.github.io/Sadi_ul_Hakim/" target="_blank">Sadi ul Hakim</a>,and thanks
