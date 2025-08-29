@@ -28,7 +28,16 @@ let surahPlayer = {
 window.onload = async () => {
     await loadQuran();
     showSurahList();
-    loadAndShow(surahNumber, ayahNumber);
+
+    let data = localStorage.getItem("quran_storage")
+    if (!data) {
+        loadAndShow(surahNumber, ayahNumber);
+    } else {
+        let quranData = JSON.parse(data);
+        surah_num.value = quranData.surahNumber;
+        ayah_num.value = quranData.ayahNumber;
+        loadAndShow(quranData.surahNumber, quranData.ayahNumber);
+    }
 
     // ------------------- Search Box ---------------------------------------
 
@@ -142,6 +151,8 @@ function loadAndShow(surahNumber, ayahNumber) {
     let surah = quran[surahNumber];
     createSurahPlayButton(surah);
 
+    localStorage.setItem("quran_storage", JSON.stringify({surahNumber, ayahNumber}))
+
     title__eng.innerText = surah.englishName + " (" + surah.englishNameTranslation + ")";
     title__arb.innerText = surah.name;
     surah_info.innerText = Object.keys(surah.ayahs).length + " Ayahs, " + surah.revelationType;
@@ -226,7 +237,6 @@ function resetSurahPlayer() {
 }
 
 function showAyah(data, lang) {
-    console.log(data)
     ayat__list.innerHTML = "";
 
     // Normalize: wrap single ayah in an array
