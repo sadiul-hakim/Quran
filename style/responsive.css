@@ -1,0 +1,120 @@
+/* ---------- Responsive Quran App ---------- */
+
+.menu-btn {
+    display: none;
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 1001;
+    background: var(--front-seconddary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 18px;
+    padding: 10px 16px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.menu-btn:hover {
+    background: #376ca3;
+}
+
+@media (max-width: 992px) {
+    .container {
+        flex-direction: column;
+        width: 100%;
+        height: auto;
+        padding-top: 50px; /* space for the menu button */
+    }
+
+    .side-bar {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 75%;
+        max-width: 320px;
+        height: 100vh;
+        background: var(--bg-color);
+        transition: left 0.3s ease-in-out;
+        z-index: 1000;
+        overflow-y: auto;
+        box-shadow: 2px 0 8px rgba(0,0,0,0.4);
+        padding-top: 60px;
+    }
+
+    .side-bar.active {
+        left: 0;
+    }
+
+    .content {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        margin-top: 15px;
+    }
+
+    .action__area {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .nav__btn_area {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .load__btn__area {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .btn {
+        font-size: 16px;
+        padding: 8px 12px;
+    }
+
+    #surah_num, #ayah_num {
+        width: 100px;
+    }
+
+    footer {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    .title__arb {
+        font-size: 22px;
+    }
+
+    .eng__ayah {
+        font-size: 18px;
+    }
+
+    .arb__ayah {
+        font-size: 22px;
+    }
+
+    .menu-btn {
+        display: block;
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 576px) {
+    .side-bar {
+        width: 85%;
+    }
+
+    .title__eng {
+        font-size: 18px;
+    }
+
+    .title__arb {
+        font-size: 20px;
+    }
+}
