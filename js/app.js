@@ -34,9 +34,9 @@ window.onload = async () => {
         loadAndShow(surahNumber, ayahNumber);
     } else {
         let quranData = JSON.parse(data);
-        surah_num.value = quranData.surahNumber;
-        ayah_num.value = quranData.ayahNumber;
-        language.value = quranData.lang;
+        surah_num.value = quranData.surahNumber || 1;
+        ayah_num.value = quranData.ayahNumber || 1;
+        language.value = quranData.lang || 'eng';
         loadAndShow(quranData.surahNumber, quranData.ayahNumber, quranData.lang);
     }
 
