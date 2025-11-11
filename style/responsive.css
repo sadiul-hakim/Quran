@@ -13,7 +13,7 @@
     font-size: 18px;
     padding: 10px 16px;
     cursor: pointer;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .menu-btn:hover {
@@ -39,7 +39,7 @@
         transition: left 0.3s ease-in-out;
         z-index: 1000;
         overflow-y: auto;
-        box-shadow: 2px 0 8px rgba(0,0,0,0.4);
+        box-shadow: 2px 0 8px rgba(0, 0, 0, 0.4);
         padding-top: 60px;
     }
 
@@ -106,6 +106,17 @@
 
 /* Extra small devices */
 @media (max-width: 576px) {
+    .menu-btn{
+        font-size: 14px;
+        padding: 6px;
+    }
+    footer{
+        font-size: 14px;
+    }
+    .load__btn__area {
+        display: none;
+    }
+
     .side-bar {
         width: 85%;
     }
